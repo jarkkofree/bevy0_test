@@ -21,12 +21,6 @@ fn main() {
 fn spawn_scene(
     mut commands: Commands,
 ) {
-    // commands.spawn(Camera3dBundle {
-    //     transform: Transform::from_xyz(50.0, 50.0, 50.0)
-    //         .looking_at(Vec3::ZERO, Vec3::Y),
-    //     ..default()
-    // });
-
     commands.spawn(DirectionalLightBundle {
         transform: Transform::IDENTITY
             .looking_at(-Vec3::Y, Vec3::Y),
