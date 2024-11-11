@@ -1,7 +1,12 @@
 use bevy::prelude::*;
+
 use std::collections::HashMap;
-use crate::mesh;
 use rand::Rng;
+
+use crate::mesh;
+use crate::hextile::coord::*;
+
+mod coord;
 
 // https://www.redblobgames.com/grids/hexagons/
 
@@ -15,18 +20,17 @@ impl Plugin for HexTilePlugin {
     }
 }
 
+
+
 #[derive(Component)]
 pub struct HexTile {
     pub id: usize,
-    pub q: i32,
-    pub r: i32,
-    default_color: Handle<StandardMaterial>,
-    current_color: Handle<StandardMaterial>
+    pub coord: Coord,
 }
 
 #[derive(Resource)]
 pub struct HexMap {
-    pub coord_to_entity: HashMap<(i32, i32), Entity>,
+    pub coord_to_id: HashMap<(i32, i32), usize>,
     pub id_to_coord: HashMap<usize, (i32, i32)>,
     pub radius: i32,
     max_materials: usize,
@@ -36,7 +40,7 @@ pub struct HexMap {
 impl Default for HexMap {
     fn default() -> Self {
         HexMap {
-            coord_to_entity: HashMap::new(),
+            coord_to_id: HashMap::new(),
             id_to_coord: HashMap::new(),
             hex_size: 1.0,
             
@@ -101,13 +105,13 @@ fn generate_hex_grid(
 
             let hex_tile = HexTile {
                 id: id_counter,
-                q,
-                r,
-                default_color: material_handle.clone(),
-                current_color: material_handle.clone(),
+                coord: Coord{
+                    q,
+                    r,
+                },
             };
 
-            let entity = commands
+            commands
                 .spawn(PbrBundle {
                     mesh: mesh_handle.clone(),
                     material: material_handle.clone(),
@@ -117,10 +121,9 @@ fn generate_hex_grid(
                     },
                     ..default()
                 })
-                .insert(hex_tile)
-                .id();
+                .insert(hex_tile);
 
-            hex_map.coord_to_entity.insert((q, r), entity);
+            hex_map.coord_to_id.insert((q, r), id_counter);
             hex_map.id_to_coord.insert(id_counter, (q, r));
 
             id_counter += 1;
