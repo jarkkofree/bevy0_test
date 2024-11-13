@@ -22,6 +22,10 @@ impl Plugin for CameraPlugin {
 
 fn spawn_camera(mut commands: Commands) {
     let camera = PanOrbitCameraBundle{
+        state: PanOrbitState {
+            center: Vec3::new(0., 10., 0.),
+            ..default()
+        },
         ..default()
     };
     commands.spawn(camera);
