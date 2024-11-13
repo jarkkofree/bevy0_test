@@ -1,4 +1,6 @@
-#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash)]
+use bevy::prelude::*;
+
+#[derive(Component, Copy, Clone, Debug, PartialEq, Eq, Hash)]
 pub struct Coord {
     pub q: i32,
     pub r: i32,

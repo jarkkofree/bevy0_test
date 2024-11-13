@@ -1,10 +1,10 @@
 use bevy::prelude::*;
-use hextile::HexTilePlugin;
+use hexgrid::HexGridPlugin;
 use camera::CameraPlugin;
 use lighting::LightingPlugin;
 
 pub mod mesh;
-pub mod hextile;
+pub mod hexgrid;
 pub mod camera;
 pub mod lighting;
 
@@ -12,7 +12,7 @@ fn main() {
     App::new()
         .add_plugins((
             DefaultPlugins,
-            HexTilePlugin,
+            HexGridPlugin,
             CameraPlugin,
             LightingPlugin
         ))
